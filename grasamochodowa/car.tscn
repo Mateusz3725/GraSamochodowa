@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://w6x1adwhegqm"]
+
+[ext_resource type="Texture2D" uid="uid://cylvt84k6nkgx" path="res://Car.png" id="1_7822p"]
+[ext_resource type="Script" uid="uid://bka8106gm8nyp" path="res://car.gd" id="1_uoj53"]
+[ext_resource type="Texture2D" uid="uid://bn0d6ismjvjdo" path="res://CarCrash.png" id="2_k61xc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7822p"]
+size = Vector2(60, 29)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_06lh1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_k61xc")
+}],
+"loop": true,
+"name": &"crash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7822p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k61xc"]
+size = Vector2(12, 24)
+
+[node name="Car" type="CharacterBody2D"]
+script = ExtResource("1_uoj53")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_7822p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_06lh1")
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+position = Vector2(25, 0)
+shape = SubResource("RectangleShape2D_k61xc")
+debug_color = Color(0.965571, 8.66354e-07, 0.485883, 0.42)
+
+[connection signal="area_exited" from="HitArea" to="." method="_on_hit_area_area_exited"]

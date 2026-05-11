@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=3 uid="uid://dce5oe0nx3s5d"]
+
+[ext_resource type="PackedScene" uid="uid://w6x1adwhegqm" path="res://car.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://ctagr1xdhi0sk" path="res://main.gd" id="1_lquwl"]
+[ext_resource type="Texture2D" uid="uid://d00j7h5tid01x" path="res://Background.png" id="2_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://cmb7jr7em5nix" path="res://StartEnd.png" id="3_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://d4nf4n7x8kffm" path="res://Checkpoint.png" id="4_lquwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
+size = Vector2(36, 70)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_272bh"]
+size = Vector2(14, 154)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_lquwl")
+
+[node name="Car" parent="." instance=ExtResource("1_ig7tw")]
+z_index = 10
+position = Vector2(355, 89)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_0xm2m")
+
+[node name="Road" type="Area2D" parent="." groups=["roads"]]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Road"]
+polygon = PackedVector2Array(369, 41, 367, 140, 524, 141, 582, 147, 605, 153, 628, 165, 640, 180, 647, 204, 650, 225, 651, 271, 651, 362, 647, 398, 636, 426, 628, 435, 602, 448, 558, 455, 447, 459, 281, 458, 209, 450, 180, 439, 167, 429, 157, 411, 150, 382, 149, 301, 151, 216, 157, 190, 166, 172, 178, 162, 196, 154, 212, 149, 247, 144, 366, 141, 367, 41, 199, 37, 134, 46, 106, 58, 83, 80, 69, 102, 56, 140, 47, 212, 42, 312, 47, 396, 59, 475, 74, 509, 91, 530, 109, 543, 123, 550, 149, 558, 187, 563, 322, 562, 374, 559, 440, 559, 509, 563, 557, 565, 604, 564, 661, 556, 686, 547, 703, 536, 725, 512, 737, 488, 747, 446, 753, 392, 757, 329, 759, 281, 755, 227, 746, 147, 735, 107, 717, 79, 698, 60, 672, 47, 630, 39, 581, 37, 495, 37)
+
+[node name="StartEnd" type="Area2D" parent="."]
+position = Vector2(260, 89)
+
+[node name="Sprite2D" type="Sprite2D" parent="StartEnd"]
+texture = ExtResource("3_1bvp3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartEnd"]
+shape = SubResource("RectangleShape2D_7mycd")
+debug_color = Color(4.04298e-06, 0.692845, 0.491769, 0.42)
+
+[node name="Checkpoint1" type="Area2D" parent="."]
+z_index = 15
+position = Vector2(704, 277)
+rotation = 1.5708
+
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoint1"]
+texture = ExtResource("4_lquwl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint1"]
+shape = SubResource("RectangleShape2D_272bh")
+
+[node name="Checkpoint2" type="Area2D" parent="."]
+z_index = 15
+position = Vector2(446, 506)
+
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoint2"]
+texture = ExtResource("4_lquwl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint2"]
+shape = SubResource("RectangleShape2D_272bh")
+
+[node name="Checkpoint3" type="Area2D" parent="."]
+z_index = 15
+position = Vector2(97, 294)
+rotation = 1.5708
+
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoint3"]
+texture = ExtResource("4_lquwl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint3"]
+shape = SubResource("RectangleShape2D_272bh")
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="Start321" type="Label" parent="StartTimer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "321"
+
+[connection signal="area_entered" from="StartEnd" to="." method="_on_start_end_area_entered"]
+[connection signal="area_entered" from="Checkpoint1" to="." method="_on_checkpoint_1_area_entered"]
+[connection signal="area_entered" from="Checkpoint2" to="." method="_on_checkpoint_2_area_entered"]
+[connection signal="area_entered" from="Checkpoint3" to="." method="_on_checkpoint_3_area_entered"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
